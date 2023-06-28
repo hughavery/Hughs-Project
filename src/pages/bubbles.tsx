@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-
+import {useNavigate}  from "react-router-dom";
 interface Bubble {
   id: string;
   text: string;
@@ -19,12 +19,12 @@ function Bubbles() {
   ];
 
   const [bubbles, setBubbles] = useState<Bubble[]>(bubbleData);
-
+  const navigate = useNavigate();
   useEffect(() => {
-    const bubbleSize = 150;
+    const bubbleSize = 200;
     const maxSpeed = 1;
-    const circumference  = 150;
-    const radius = 75;
+    const circumference  = 200;
+    const radius = 100;
     const makeSmooth = 2 ;
 
     function distance(x: number, y: number) {
@@ -54,7 +54,7 @@ function Bubbles() {
       if (newY < radius + makeSmooth) {
         bubble.speedY = Math.abs(bubble.speedY);
         bubble.color = getRandomColor();
-      } else if (newY > window.innerHeight - circumference - 48) {
+      } else if (newY > window.innerHeight - circumference - 15) {
         bubble.speedY = -Math.abs(bubble.speedY);
         bubble.color = getRandomColor();
       }
@@ -124,7 +124,7 @@ function Bubbles() {
 
   function handleBubbleClick(bubbleId: String) {
     if (bubbleId === 'about') {
-    console.log(`Clicked bubble with ID: ${bubbleId}`);
+        navigate('/about');
     }
   }
   
@@ -145,7 +145,8 @@ function Bubbles() {
   return (
     <body>
       <header>
-        <h1>Hugh's Project</h1>
+      <h1 className=" text-grey-500">
+            Hugh Avery</h1>
       </header>
 
       <main>{renderBubbles()}</main>

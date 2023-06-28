@@ -1,16 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
   overflow: hidden;
+  background-color: #deddddb3; /* Add this line to set the grey background color */
+}
+
+h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  text-decoration: wavy;
+  font-family: cursive;
 }
 
 header {
-  background-color: #333;
+  background-image: linear-gradient(to bottom right, #FFC107, #E91E63, #9C27B0, #2196F3);
+  background-size: 200% 200%;
+  animation: gradientAnimation 10s ease infinite;
   color: #fff;
   padding: 20px;
   text-align: center;
 }
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+
+
+/* header {
+  background-image: url('assets/react.svg');
+  background-repeat: repeat;
+  background-size:44rem;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+} */
+
+
 
 main {
   padding: 20px;
@@ -21,8 +60,8 @@ main {
 
 .bubble {
   position: absolute;
-  width: 135px;
-  height: 135px;
+  width: 200px;
+  height: 200px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -35,6 +74,7 @@ main {
   justify-content: center;
   align-items: center;
   text-align: center;
+  font-size: xx-large;
   font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
