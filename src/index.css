@@ -10,6 +10,17 @@ body {
   background-color: #deddddb3; /* Add this line to set the grey background color */
 }
 
+.profile-bubble {
+  width: 200px !important;
+  height: 200px !important;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+
 h1 {
   font-size: 3rem;
   font-weight: bold;

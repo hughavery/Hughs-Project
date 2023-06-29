@@ -3,8 +3,8 @@ import profileImage from '../assets/profile.jpg';
 
 function About() {
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-900 text-white">
-      <div className="max-w-md bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+    <div className="flex flex-col items-center justify-center h-screen bg-gray-800 text-white">
+      <div className="max-w-md bg-gray-600 rounded-lg shadow-lg overflow-hidden">
         <div className="p-3">
           <Link to={`/bubbles`} className="ml-2 hover:text-blue-500">Back</Link>
           <div className="relative mt-4">
