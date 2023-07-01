@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import profileImage from '../assets/profile.jpg';
 import gitHubImage from '../assets/github.jpg';
 import linkedinImage from '../assets/linkedin.jpg';
-
+import phoneMail from '../assets/phone1.jpg'; 
+import ContactModal from './contactModal'
 interface Bubble {
   id: string;
   text: string;
@@ -13,19 +14,20 @@ interface Bubble {
   speedY: number;
   color: string; // Add color property
   photo?: string;
+  url?: string;
+  endpoint?: string;
   //refactor url check for clikc
 }
 
 function Bubbles() {
     const bubbleData: Bubble[] = [
-        { id: 'about', text: 'About Me', x: 0, y: 0, speedX: 0, speedY: 0, color: 'pink' },
-        { id: 'skills', text: 'Skills', x: 0, y: 0, speedX: 0, speedY: 0, color: 'purple' },
-        { id: 'projects', text: 'Projects', x: 0, y: 0, speedX: 0, speedY: 0, color: 'blue' },
-        { id: 'contact', text: 'Contact', x: 0, y: 0, speedX: 0, speedY: 0, color: 'green' },
+        { id: 'about', text: 'About Me', x: 0, y: 0, speedX: 0, speedY: 0, color: 'pink', endpoint: '/about' },
+        { id: 'experience', text: 'Experience', x: 0, y: 0, speedX: 0, speedY: 0, color: 'purple', endpoint: '/experience' },
+        { id: 'projects', text: 'Projects', x: 0, y: 0, speedX: 0, speedY: 0, color: 'blue', endpoint: '/projects' },
+        { id: 'social', text: 'Social', x: 0, y: 0, speedX: 0, speedY: 0, color: 'green' },
         { id: 'profile', text: '', x: 0, y: 0, speedX: 0, speedY: 0, color: 'green', photo: profileImage},
-      ];
-      
-
+        ];      
+    const [showModal, setShowModal] = useState(false);
   const [bubbles, setBubbles] = useState<Bubble[]>(bubbleData);
   const navigate = useNavigate();
 
@@ -62,6 +64,7 @@ function Bubbles() {
       if (newY < radius + makeSmooth) {
         bubble.speedY = Math.abs(bubble.speedY);
         bubble.color = getRandomColor();
+        
       } else if (newY > window.innerHeight - circumference - 15) {
         bubble.speedY = -Math.abs(bubble.speedY);
         bubble.color = getRandomColor();
@@ -142,23 +145,30 @@ function Bubbles() {
   };
 
   function handleBubbleClick(bubble: Bubble) {
-    if (bubble.id === 'about') {
-      navigate('/about');
+    if (bubble.endpoint) {
+      navigate(bubble.endpoint);
     } 
-    if (bubble.id === 'profile') {
-      window.open('https://www.linkedin.com/in/hugh-avery-b11214206/', '_blank');
+    if (bubble.url) {
+      window.open(bubble.url, '_blank');
     }
-    if (bubble.id === 'contact') {
+    if (bubble.id === 'phone') {
+      setShowModal(true);
+    }
+    if (bubble.id === 'social') {
         const radius = 100
-        if (bubbles.length < 20) {
-            const github = { id: 'github', text: '', x: bubble.x - radius, y: bubble.y, speedX: -bubble.speedX, speedY: bubble.speedY, color: 'green', photo: gitHubImage };
-            const linkedin = { id: 'linkedin', text: '', x: bubble.x + radius, y: bubble.y, speedX: bubble.speedX, speedY: bubble.speedY, color: 'green', photo: linkedinImage };
-            const updatedBubbles = [...bubbles, github, linkedin];
-            setBubbles(updatedBubbles);
-        }
+        const github = { id: 'github', text: '', x: bubble.x - radius, y: bubble.y, speedX: -bubble.speedX, speedY: bubble.speedY, color: 'green', photo: gitHubImage, url:'https://github.com/hughavery'};
+        const phoneAndMail = { id: 'phone', text: '', x: bubble.x, y: bubble.y - radius, speedX: bubble.speedX, speedY: bubble.speedY, color: 'green', photo: phoneMail};
+        console.log(bubbles)
+        const linkedin = { id: 'linkedin', text: '', x: bubble.x + radius, y: bubble.y, speedX: bubble.speedX, speedY: bubble.speedY, color: 'green', photo: linkedinImage, url:'https://www.linkedin.com/in/hugh-avery-b11214206'  };
+        const updatedBubbles = [...bubbles.filter((b) => b.id !== 'social'), github, linkedin, phoneAndMail];
+        setBubbles(updatedBubbles);
+
     }
   }
   
+  function closeModal() {
+    setShowModal(false);
+  }
 
   const renderBubbles = () =>
     bubbles.map((bubble) => (
@@ -183,6 +193,7 @@ function Bubbles() {
       </header>
 
       <main>{renderBubbles()}</main>
+      {showModal && <ContactModal onClose={closeModal} />}
     </body>
   );
 }
