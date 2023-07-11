@@ -4,7 +4,11 @@ import profileImage from '../assets/profile.jpg';
 import gitHubImage from '../assets/github.jpg';
 import linkedinImage from '../assets/linkedin.jpg';
 import phoneMail from '../assets/phone1.jpg'; 
-import ContactModal from './contactModal'
+import ContactModal from './contactModal';
+import surf from '../assets/surf.jpg'
+import logo from '../assets/logo.svg'
+import CV from '../assets/CV Hugh.pdf'
+
 interface Bubble {
   id: string;
   text: string;
@@ -12,22 +16,22 @@ interface Bubble {
   y: number;
   speedX: number;
   speedY: number;
-  color: string; // Add color property
+  color: string;
   photo?: string;
   url?: string;
   endpoint?: string;
-  //refactor url check for clikc
 }
 
 function Bubbles() {
-    const bubbleData: Bubble[] = [
-        { id: 'about', text: 'About Me', x: 0, y: 0, speedX: 0, speedY: 0, color: 'pink', endpoint: '/about' },
-        { id: 'experience', text: 'Experience', x: 0, y: 0, speedX: 0, speedY: 0, color: 'purple', endpoint: '/experience' },
-        { id: 'projects', text: 'Projects', x: 0, y: 0, speedX: 0, speedY: 0, color: 'blue', endpoint: '/projects' },
-        { id: 'social', text: 'Social', x: 0, y: 0, speedX: 0, speedY: 0, color: 'green' },
-        { id: 'profile', text: '', x: 0, y: 0, speedX: 0, speedY: 0, color: 'green', photo: profileImage},
-        ];      
-    const [showModal, setShowModal] = useState(false);
+  const bubbleData: Bubble[] = [
+    { id: 'about', text: 'About Me', x: 0, y: 0, speedX: 0, speedY: 0, color: 'red', endpoint: '/about' },
+    { id: 'experience', text: 'Experience', x: 0, y: 0, speedX: 0, speedY: 0, color: 'purple', endpoint: '/experience' },
+    { id: 'projects', text: 'Projects', x: 0, y: 0, speedX: 0, speedY: 0, color: 'blue', endpoint: '/projects' },
+    { id: 'social media', text: 'Social Media', x: 0, y: 0, speedX: 0, speedY: 0, color: 'green' },
+    { id: 'profile', text: '', x: 0, y: 0, speedX: 0, speedY: 0, color: 'teal', photo: profileImage },
+    { id: 'cv', text: 'Resume', x: 0, y: 0, speedX: 0, speedY: 0, color: 'violet'},
+  ];      
+  const [showModal, setShowModal] = useState(false);
   const [bubbles, setBubbles] = useState<Bubble[]>(bubbleData);
   const navigate = useNavigate();
 
@@ -55,23 +59,17 @@ function Bubbles() {
 
       if (newX < radius + makeSmooth) {
         bubble.speedX = Math.abs(bubble.speedX);
-        bubble.color = getRandomColor();
       } else if (newX > window.innerWidth - (radius + makeSmooth)) {
         bubble.speedX = -Math.abs(bubble.speedX);
-        bubble.color = getRandomColor();
       }
 
       if (newY < radius + makeSmooth) {
         bubble.speedY = Math.abs(bubble.speedY);
-        bubble.color = getRandomColor();
-        
       } else if (newY > window.innerHeight - circumference - 15) {
         bubble.speedY = -Math.abs(bubble.speedY);
-        bubble.color = getRandomColor();
       }
 
       for (let i = index + 1; i < bubbles.length; i++) {
-        console.log(bubbles.length)
         const otherBubble = bubbles[i];
         const dx = bubble.x - otherBubble.x;
         const dy = bubble.y - otherBubble.y;
@@ -89,13 +87,6 @@ function Bubbles() {
 
           newX = bubble.x + bubble.speedX;
           newY = bubble.y + bubble.speedY;
-
-          otherBubble.x += otherBubble.speedX;
-          otherBubble.y += otherBubble.speedY;
-
-          // Change bubble colors upon collision
-          bubble.color = getRandomColor();
-          otherBubble.color = getRandomColor();
         }
       }
 
@@ -107,17 +98,15 @@ function Bubbles() {
     }
 
     function update() {
-        setBubbles((oldBubbles) =>
-          oldBubbles.map((bubble, index) => {
-            moveBubble(bubble, index, oldBubbles); // Pass oldBubbles as an argument
-            return bubble;
-          })
-        );
-        animationFrameId = requestAnimationFrame(update);
-      }
-      
+      setBubbles((oldBubbles) =>
+        oldBubbles.map((bubble, index) => {
+          moveBubble(bubble, index, oldBubbles);
+          return bubble;
+        })
+      );
+      animationFrameId = requestAnimationFrame(update);
+    }
 
-    // Initialize bubble positions and speeds
     setBubbles((oldBubbles) =>
       oldBubbles.map((bubble) => {
         randInit(bubble);
@@ -130,19 +119,19 @@ function Bubbles() {
     return () => cancelAnimationFrame(animationFrameId);
   }, []);
 
-  const getRandomColor = () => {
-    const colors = [
-      'pink',
-      'purple',
-      'blue',
-      'green',
-      'rgb(220, 15, 15)',
-      'rgb(217, 217, 28)',
-      'rgb(34, 176, 176)',
-      'rgb(212, 53, 227)',
-    ];
-    return colors[Math.floor(Math.random() * colors.length)];
-  };
+  // const getRandomColor = () => {
+  //   const colors = [
+  //     'pink',
+  //     'purple',
+  //     'blue',
+  //     'green',
+  //     'rgb(220, 15, 15)',
+  //     'rgb(217, 217, 28)',
+  //     'rgb(34, 176, 176)',
+  //     'rgb(212, 53, 227)',
+  //   ];
+  //   return colors[Math.floor(Math.random() * colors.length)];
+  // };
 
   function handleBubbleClick(bubble: Bubble) {
     if (bubble.endpoint) {
@@ -154,15 +143,24 @@ function Bubbles() {
     if (bubble.id === 'phone') {
       setShowModal(true);
     }
-    if (bubble.id === 'social') {
-        const radius = 100
-        const github = { id: 'github', text: '', x: bubble.x - radius, y: bubble.y, speedX: -bubble.speedX, speedY: bubble.speedY, color: 'green', photo: gitHubImage, url:'https://github.com/hughavery'};
-        const phoneAndMail = { id: 'phone', text: '', x: bubble.x, y: bubble.y - radius, speedX: bubble.speedX, speedY: bubble.speedY, color: 'green', photo: phoneMail};
-        console.log(bubbles)
-        const linkedin = { id: 'linkedin', text: '', x: bubble.x + radius, y: bubble.y, speedX: bubble.speedX, speedY: bubble.speedY, color: 'green', photo: linkedinImage, url:'https://www.linkedin.com/in/hugh-avery-b11214206'  };
-        const updatedBubbles = [...bubbles.filter((b) => b.id !== 'social'), github, linkedin, phoneAndMail];
-        setBubbles(updatedBubbles);
-
+    if (bubble.id === 'profile') {
+      bubble.photo !== surf? bubble.photo = surf : bubble.photo = profileImage
+    }
+    
+    if (bubble.id === 'cv') {
+      // Trigger the download by creating a link element and simulating a click
+      const link = document.createElement('a');
+      link.href = CV; // Replace with the actual URL of your resume PDF file
+      link.download = 'CV_Hugh_Avery.pdf'; // Specify the desired filename for the downloaded file
+      link.click();
+    }
+    if (bubble.id === 'social media') {
+      const radius = 100;
+      const github = { id: 'github', text: '', x: bubble.x - radius, y: bubble.y, speedX: -bubble.speedX, speedY: bubble.speedY, color: 'green', photo: gitHubImage, url:'https://github.com/hughavery'};
+      const phoneAndMail = { id: 'phone', text: '', x: bubble.x, y: bubble.y - radius, speedX: bubble.speedX, speedY: bubble.speedY, color: 'orange', photo: phoneMail};
+      const linkedin = { id: 'linkedin', text: '', x: bubble.x + radius, y: bubble.y, speedX: bubble.speedX, speedY: bubble.speedY, color: 'gray', photo: linkedinImage, url:'https://www.linkedin.com/in/hugh-avery-b11214206'  };
+      const updatedBubbles = [...bubbles.filter((b) => b.id !== 'social media'), github, linkedin, phoneAndMail];
+      setBubbles(updatedBubbles);
     }
   }
   
@@ -171,25 +169,37 @@ function Bubbles() {
   }
 
   const renderBubbles = () =>
-    bubbles.map((bubble) => (
+  bubbles.map((bubble) => {
+    const bubbleColor = bubble.color;
+    return (
       <div
         key={bubble.id}
-        className={`bubble ${bubble.id === 'profile' ? 'profile-bubble' : ''}`}
-        style={{ left: bubble.x, top: bubble.y, backgroundColor: bubble.color }}
+        className={`bubble font-bold text-gray-100 bg-red-300 hover:bg-red-600`}
+        style={{ left: bubble.x, top: bubble.y, backgroundColor: bubbleColor}}
         onClick={() => handleBubbleClick(bubble)}
       >
         {bubble.photo ? (
-          <img src={bubble.photo} alt="Profile" className="object-cover w-full h-full rounded-full" />
+          <img
+            src={bubble.photo}
+            alt="Profile"
+            className="object-cover w-full h-full rounded-full"
+          />
         ) : (
           bubble.text
         )}
       </div>
-    ));
+    );
+  });
+
 
   return (
     <body>
       <header>
-        <h1 className="text-grey-500">Hugh Avery</h1>
+        <div className='flex justify-center' >
+        <img src={logo} alt="" className="w-20 h-20 mr-4" />
+        <h1 >Hugh R Avery  </h1>
+        <img src={logo} alt="" className="w-20 h-20 ml-4" />
+        </div>
       </header>
 
       <main>{renderBubbles()}</main>

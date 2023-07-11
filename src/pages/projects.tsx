@@ -1,20 +1,26 @@
+
 import saturday from '../assets/saturday.jpg';
 import filmflix from '../assets/filmflix.jpg';
 import BackButton from './backButton';
+import logo from '../assets/logo.svg';
 
 function Projects() {
-  const saturdayDescription = 'Saturday is a team analytics application. This powerful tool has been designed to help teams and users to connect with other teams and users based on locations, sports, and sports interests, and streamline their overall team management process. I am currently working on the Saturday project in an agile environment. Our project team consists of 8 developers, scrum masters, a CTO, and a product owner.';
-  const filmFlixDescription = 'Film Flix is an exciting movie review website that I developed, offering users a user-friendly platform to explore a diverse collection of films. Through this website, users can effortlessly search, filter, and sort movies based on their preferences, while enjoying comprehensive film details, ratings, and user reviews. I programmed both the front and backend for this application.';
-    console.log('asdf')
-    console.log(window.innerWidth)
+  const saturdayDescription =
+    'Saturday is a team analytics application. This powerful tool has been designed to help teams and users to connect with other teams and users based on locations, sports, and sports interests, and streamline their overall team management process. I am currently working on the Saturday project in an agile environment. Our project team consists of 8 developers, scrum masters, a CTO, and a product owner.';
+  const filmFlixDescription =
+    'Film Flix is an exciting movie review website that I developed, offering users a user-friendly platform to explore a diverse collection of films. Through this website, users can effortlessly search, filter, and sort movies based on their preferences, while enjoying comprehensive film details, ratings, and user reviews. I programmed both the front and backend for this application.';
+
   // Function to check if the screen width is below a certain breakpoint
-  const isMobileScreen = () => window.innerWidth < 640;
 
   return (
     <div className="overflow-auto h-screen">
-      <div className="flex flex-wrap justify-center">
-        <BackButton />
-        <div className={`max-w-lg bg-white border border-gray-300 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 hover:bg-slate-200 transform transition-all hover:-translate-y-1 mx-4 mt-16 mb-${isMobileScreen() ? '4' : '96'}`}>
+      <div className="flex justify-center items-center">
+        <img src={logo} alt="" className="w-20 h-20" />
+      </div>
+      <BackButton />
+      <div className="flex flex-wrap justify-center mb-4">
+        {/* Saturday Card */}
+        <div className="max-w-lg bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 hover:bg-slate-200 transform transition-all hover:-translate-y-1 mt-16 mx-4">
           <a href="https://csse-s302g7.canterbury.ac.nz/prod/" target="_blank">
             <img className="rounded-t-lg" src={saturday} alt="" />
             <div className="p-5">
@@ -31,7 +37,8 @@ function Projects() {
           </a>
         </div>
 
-        <div className={`max-w-lg bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 hover:bg-slate-200 transform transition-all hover:-translate-y-1 mt-16 mx-4 mb-${isMobileScreen() ? '4' : '96'}`}>
+        {/* Film Flix Card */}
+        <div className="max-w-lg bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 hover:bg-slate-200 transform transition-all hover:-translate-y-1 mt-16 mx-4">
           <a href="https://hughaveryfilmflix.netlify.app" target="_blank">
             <img className="rounded-t-lg" src={filmflix} alt="" />
             <div className="p-5">
@@ -54,3 +61,4 @@ function Projects() {
 }
 
 export default Projects;
+ 
