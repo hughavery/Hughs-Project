@@ -174,8 +174,8 @@ function Bubbles() {
     return (
       <div
         key={bubble.id}
-        className={`bubble font-bold text-gray-100 bg-red-300 hover:bg-red-600`}
-        style={{ left: bubble.x, top: bubble.y, backgroundColor: bubbleColor}}
+        className={`bubble font-bold text-gray-100 bg-${bubbleColor}-300 hover:bg-${bubbleColor}-600`}
+        style={{ left: bubble.x, top: bubble.y}}
         onClick={() => handleBubbleClick(bubble)}
       >
         {bubble.photo ? (
